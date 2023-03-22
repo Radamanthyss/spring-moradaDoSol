@@ -1,10 +1,10 @@
 package com.brunob.api.spreact.Service.Impl;
 
-import com.brunob.api.spreact.Dto.ProdutoDto;
+import com.brunob.api.spreact.Dto.UserDto;
 import com.brunob.api.spreact.Dto.Response.ResponseDto;
-import com.brunob.api.spreact.Entity.Produto;
-import com.brunob.api.spreact.Repository.ProdutoRepository;
-import com.brunob.api.spreact.Service.ServicePattern;
+import com.brunob.api.spreact.Entity.User;
+import com.brunob.api.spreact.Repository.UserRepository;
+import com.brunob.api.spreact.Service.UserPattern;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProdutoService implements ServicePattern {
+public class UserService implements UserPattern {
 
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private ResponseDto responseDto;
@@ -27,13 +27,13 @@ public class ProdutoService implements ServicePattern {
     @Autowired
     private ModelMapper modelMapper;
 
-    public ResponseEntity<?> insertOrUpdate(ProdutoDto produtoDto, Integer action){
+    public ResponseEntity<?> insertOrUpdate(UserDto userDto, Integer action){
         try {
-            produtoRepository.save(modelMapper.map(produtoDto, Produto.class));
+            userRepository.save(modelMapper.map(userDto, User.class));
             if (action == 0) {
-                return new ResponseEntity<ProdutoDto>(produtoDto, HttpStatus.CREATED);
+                return new ResponseEntity<UserDto>(userDto, HttpStatus.CREATED);
             } else {
-                return new ResponseEntity<ProdutoDto>(produtoDto, HttpStatus.OK);
+                return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
             }
         } catch (Exception e) {
             responseDto.setMensagem("Ocorreu um erro na operação!");
@@ -42,25 +42,25 @@ public class ProdutoService implements ServicePattern {
 
     }
 
-    public Iterable<ProdutoDto> getProdutos(){
-        return modelMapper.map(produtoRepository.findAll(), new TypeToken<List<ProdutoDto>>(){}.getType());
+    public Iterable<UserDto> getUsers(){
+        return modelMapper.map(userRepository.findAll(), new TypeToken<List<UserDto>>(){}.getType());
     }
 
     public ResponseEntity<ResponseDto> delete(Long id) {
-        produtoRepository.deleteById(id);
+        userRepository.deleteById(id);
         responseDto.setMensagem("Produto removido com sucesso!");
         return new ResponseEntity<ResponseDto>(responseDto,HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getProduto(Long id) {
+    public ResponseEntity<?> getUser(Long id) {
 
-        Optional<Produto> retorno = produtoRepository.findById(id);
+        Optional<User> retorno = userRepository.findById(id);
         if(retorno.isEmpty()){
             responseDto.setMensagem("Não foi encontrado produto com este ID");
             return new ResponseEntity<ResponseDto>(responseDto,HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<ProdutoDto>(modelMapper.map(retorno.get(),ProdutoDto.class),HttpStatus.OK);
+        return new ResponseEntity<UserDto>(modelMapper.map(retorno.get(), UserDto.class),HttpStatus.OK);
 
     }
 }

@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost/spreact?useSSL=false&allowMultiQueries=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost/moradadosol?useSSL=false&allowMultiQueries=true&serverTimezone=UTC
     username: root
     password: wtsi@2018%$
   flyway:

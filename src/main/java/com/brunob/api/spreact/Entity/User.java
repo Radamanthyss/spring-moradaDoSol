@@ -7,12 +7,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "produto")
 @Data
-public class Produto {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
-    private String marca;
+    private String email;
+    private String password;
+    private Integer level;
 }
